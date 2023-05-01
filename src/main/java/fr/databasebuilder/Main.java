@@ -1,10 +1,9 @@
 package fr.databasebuilder;
 
-import java.sql.SQLException;
-
 public class Main {
-    public static void main(String[] args) throws IllegalAccessException, SQLException {
+    public static void main(String[] args) {
         ObjectTest objectTest = new ObjectTest();
-        new TableCreateORM().createTable(objectTest);
+        objectTest.dropTable();
+        objectTest.createTable();
     }
 }
