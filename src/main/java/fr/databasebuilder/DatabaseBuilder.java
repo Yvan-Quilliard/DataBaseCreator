@@ -22,7 +22,7 @@ public interface DatabaseBuilder {
         new CrudORM(this).destroy();
     }
 
-    default String show(final int id) {
+    default String getOne(final int id) {
         return new CrudORM(this).show(id);
     }
 
