@@ -1,13 +1,22 @@
 package fr.databasebuilder;
 
+import java.util.Date;
+
 public class Main {
     public static void main(String[] args) {
         Benefit benefit = new Benefit();
+        Benefit benefit1 = new Benefit("Message test1", true, 'M', 10, new Date("01/12/2000 00:00:50"), 10);
+        Benefit benefit2 = new Benefit("Message test2", true, 'F', 20, new Date("01/12/2000 00:00:50"), 20);
+        Benefit benefit3 = new Benefit("Message test3", true, 'N', 30, new Date("01/12/2000 00:00:50"), 30);
         benefit.dropTable();
         benefit.createTable();
-        benefit.insert();
-        benefit.setLetter('F');
-        benefit.update();
+        benefit1.insert();
+        benefit2.insert();
+        benefit3.insert();
+        System.out.println(benefit.show(1));
+        System.out.println(benefit.show(2));
+        System.out.println(benefit.show(3));
+        System.out.println(benefit.getAll());
 //        benefit.destroy();
     }
 }

@@ -11,15 +11,23 @@ public interface DatabaseBuilder {
     }
 
     default void insert() {
-        new TableORM(this).insert();
+        new CrudORM(this).insert();
     }
 
     default void update() {
-        new TableORM(this).update();
+        new CrudORM(this).update();
     }
 
     default void destroy() {
-        new TableORM(this).destroy();
+        new CrudORM(this).destroy();
+    }
+
+    default String show(final int id) {
+        return new CrudORM(this).show(id);
+    }
+
+    default String getAll() {
+        return new CrudORM(this).getAll();
     }
 
 }
