@@ -1,40 +1,23 @@
-package fr.databasebuilder;
+package fr.databasebuilder.model;
 
+import fr.databasebuilder.transorm.FieldDatabase;
+import fr.databasebuilder.transorm.TransformValueSQL;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class CrudORM {
+public class ModelORM {
 
     private Object object;
     private ArrayList<FieldDatabase> fieldDatabases;
 
-    public CrudORM(@NotNull Object object) {
+    public ModelORM(@NotNull Object object) {
         this.object = object;
-        this.fieldDatabases = getFieldArrayByObject(object);
+        this.fieldDatabases = FieldDatabase.getFieldArrayByObject(object);
     }
 
-    private ArrayList<FieldDatabase> getFieldArrayByObject(@NotNull Object object) {
-        ArrayList<FieldDatabase> fieldDatabases = new ArrayList<>();
-        Object obj = object;
-
-        for (Field field : obj.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            if (field.getType().equals(String.class) || field.getType().equals(Date.class) || field.getType().equals(int.class) || field.getType().equals(boolean.class) || field.getType().equals(char.class) || field.getType().equals(long.class)) {
-                try {
-                    fieldDatabases.add(new FieldDatabase(field.getName(), field.get(obj).toString(), field.getType().getSimpleName()));
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return fieldDatabases;
-    }
-
-    public CrudORM insert() {
+    public ModelORM insert() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbbuilder", "dbbuilder", "dbbuilder");
             StringBuilder queryBuilder = new StringBuilder();
@@ -64,7 +47,7 @@ public class CrudORM {
         return this;
     }
 
-    public CrudORM update() {
+    public ModelORM update() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbbuilder", "dbbuilder", "dbbuilder");
             StringBuilder queryBuilder = new StringBuilder();
@@ -88,7 +71,7 @@ public class CrudORM {
         return this;
     }
 
-    public CrudORM destroy() {
+    public ModelORM destroy() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbbuilder", "dbbuilder", "dbbuilder");
             StringBuilder queryBuilder = new StringBuilder();
@@ -105,7 +88,7 @@ public class CrudORM {
         return this;
     }
 
-    public String show(int id) {
+    public String get(int id) {
         String json = "";
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbbuilder", "dbbuilder", "dbbuilder");
@@ -170,7 +153,7 @@ public class CrudORM {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbbuilder", "dbbuilder", "dbbuilder");
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("SELECT id FROM ").append(this.object.getClass().getSimpleName()).append(" WHERE ");
-            for (FieldDatabase fieldDatabase : getFieldArrayByObject(this.object)) {
+            for (FieldDatabase fieldDatabase : FieldDatabase.getFieldArrayByObject(this.object)) {
                 queryBuilder.append(fieldDatabase.getAttribute()).append(" = '").append(TransformValueSQL.trasformValue(fieldDatabase.getType(), fieldDatabase.getValue())).append("' AND ");
             }
             queryBuilder.delete(queryBuilder.length() - 5, queryBuilder.length());

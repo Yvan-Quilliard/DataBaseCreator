@@ -2,7 +2,7 @@ package fr.databasebuilder;
 
 import java.util.Date;
 
-public class Benefit implements DatabaseBuilder {
+public class Benefit implements IModelORM, ITableORM {
 
     private String message;
     private boolean exist;

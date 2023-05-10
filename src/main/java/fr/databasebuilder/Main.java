@@ -16,9 +16,9 @@ public class Main {
         benefit2.insert();
         benefit3.insert();
 
-        System.out.println(benefit.getOne(1));
-        System.out.println(benefit.getOne(2));
-        System.out.println(benefit.getOne(3));
+        System.out.println(benefit.get(1));
+        System.out.println(benefit.get(2));
+        System.out.println(benefit.get(3));
         System.out.println(benefit.getAll());
 
         benefit1.destroy();
